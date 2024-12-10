@@ -1,0 +1,28 @@
+type Mutation {
+  createUser(email: String!, name: String!, password: String!, surname: String!): UserResponse
+}
+
+type Query {
+  users: [User]
+}
+
+type User {
+  createdAt: String
+  email: String!
+  id: ID!
+  lastLogin: String
+  name: String!
+  password: String!
+  profileImage: String
+  refreshToken: String
+  status: Boolean
+  surname: String!
+  updatedAt: String
+  verificationCode: Int
+  verificationCodeLimit: Int
+  verificationExpiry: String
+}
+
+type UserResponse {
+  id: ID!
+}
