@@ -1,8 +1,10 @@
 import { User } from "../../../../models/user.model";
+import { createTokenAndSetCookies } from "../../../../utils/createToken";
 import { sendVerificationMail } from "../../../../utils/sendMail";
 import type { MutationResolvers } from "./../../../types.generated";
-export const createUser: NonNullable<MutationResolvers["createUser"]> = async (_parent, { name, surname, email, password }, _ctx) => {
-   // 1. Kullanıcı veritabanında mevcut mu kontrolü
+export const createUser: NonNullable<MutationResolvers["createUser"]> = async (_parent, { name, surname, email, password }, context) => {
+   const { res } = context;
+
    const existingUser = await User.findOne({ email });
    if (existingUser) {
       throw new Error("A user with this email already exists");
@@ -22,6 +24,8 @@ export const createUser: NonNullable<MutationResolvers["createUser"]> = async (_
 
       newUser.verificationCode = verificationCode;
       await newUser.save();
+
+      await createTokenAndSetCookies(newUser.id, res);
 
       return { id: newUser.id };
    } catch (error) {

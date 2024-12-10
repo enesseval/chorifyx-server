@@ -21,6 +21,7 @@ const startServer = async () => {
       const server = new ApolloServer({
          typeDefs,
          resolvers,
+         context: ({ req, res }) => ({ req, res }),
       });
       // Apollo Server Başlatma
       server.listen(5000).then(({ url }) => {
