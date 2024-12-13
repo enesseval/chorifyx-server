@@ -3,7 +3,7 @@ type Mutation {
 }
 
 type Query {
-  users: [User]
+  getUser: User
 }
 
 type User {
@@ -18,11 +18,12 @@ type User {
   status: Boolean
   surname: String!
   updatedAt: String
+  username: String!
   verificationCode: Int
   verificationCodeLimit: Int
   verificationExpiry: String
 }
 
 type UserResponse {
-  id: ID!
+  username: String
 }

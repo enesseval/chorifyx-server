@@ -2,6 +2,7 @@ type User {
    id: ID!
    name: String!
    surname: String!
+   username: String!
    email: String!
    password: String!
    profileImage: String
@@ -16,11 +17,11 @@ type User {
 }
 
 type UserResponse {
-   id: ID!
+   username: String
 }
 
 type Query {
-   users: [User]
+   getUser: User
 }
 
 type Mutation {

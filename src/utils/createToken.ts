@@ -10,14 +10,13 @@ export const createTokenAndSetCookies = async (userId: string, res: Response) =>
       await User.findByIdAndUpdate(userId, { refreshToken: refreshToken });
 
       const cookieOptions = {
-         httpOnly: true,
-         samSite: "strict" as const,
+         sameSite: "strict" as const,
          maxAge: 60 * 60 * 1000,
+         secure: false,
       };
 
       res.cookie("access-token", accessToken, {
          ...cookieOptions,
-         secure: process.env.NODE_ENV === "production",
       });
       return { accessToken };
    } catch (error) {

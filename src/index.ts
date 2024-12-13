@@ -1,16 +1,10 @@
 import { connectDB } from "./utils/db";
 import dotenv from "dotenv";
-import express from "express";
-import cors from "cors";
 import { ApolloServer } from "apollo-server";
 import { typeDefs } from "./schema/typeDefs.generated";
 import { resolvers } from "./schema/resolvers.generated";
 
 dotenv.config();
-
-const app = express();
-
-app.use(cors({ credentials: true }));
 
 const startServer = async () => {
    try {
@@ -22,6 +16,10 @@ const startServer = async () => {
          typeDefs,
          resolvers,
          context: ({ req, res }) => ({ req, res }),
+         cors: {
+            origin: "http://localhost:3000",
+            credentials: true,
+         },
       });
       // Apollo Server Başlatma
       server.listen(5000).then(({ url }) => {

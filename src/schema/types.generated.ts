@@ -31,7 +31,7 @@ export type MutationcreateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  users?: Maybe<Array<Maybe<User>>>;
+  getUser?: Maybe<User>;
 };
 
 export type User = {
@@ -47,6 +47,7 @@ export type User = {
   status?: Maybe<Scalars['Boolean']['output']>;
   surname: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
   verificationCode?: Maybe<Scalars['Int']['output']>;
   verificationCodeLimit?: Maybe<Scalars['Int']['output']>;
   verificationExpiry?: Maybe<Scalars['String']['output']>;
@@ -54,7 +55,7 @@ export type User = {
 
 export type UserResponse = {
   __typename?: 'UserResponse';
-  id: Scalars['ID']['output'];
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -155,7 +156,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -170,6 +171,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   status?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   surname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   verificationCode?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   verificationCodeLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   verificationExpiry?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -177,7 +179,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type UserResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserResponse'] = ResolversParentTypes['UserResponse']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
