@@ -1,5 +1,5 @@
 type User {
-   id: ID!
+   id: ID
    name: String!
    surname: String!
    username: String!
@@ -8,9 +8,9 @@ type User {
    profileImage: String
    lastLogin: String
    status: Boolean
-   verificationCode: Int
-   verificationExpiry: String
-   verificationCodeLimit: Int
+   verCode: Int
+   verExp: String
+   verCodeLimit: Int
    refreshToken: String
    createdAt: String
    updatedAt: String

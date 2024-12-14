@@ -10,7 +10,7 @@ export const createTokenAndSetCookies = async (userId: string, res: Response) =>
       await User.findByIdAndUpdate(userId, { refreshToken: refreshToken });
 
       const cookieOptions = {
-         sameSite: "strict" as const,
+         sameSite: "lax" as const,
          maxAge: 60 * 60 * 1000,
          secure: false,
       };

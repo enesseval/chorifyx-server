@@ -38,7 +38,7 @@ export type User = {
   __typename?: 'User';
   createdAt?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
+  id?: Maybe<Scalars['ID']['output']>;
   lastLogin?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
@@ -48,9 +48,9 @@ export type User = {
   surname: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
-  verificationCode?: Maybe<Scalars['Int']['output']>;
-  verificationCodeLimit?: Maybe<Scalars['Int']['output']>;
-  verificationExpiry?: Maybe<Scalars['String']['output']>;
+  verCode?: Maybe<Scalars['Int']['output']>;
+  verCodeLimit?: Maybe<Scalars['Int']['output']>;
+  verExp?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserResponse = {
@@ -162,7 +162,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   lastLogin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -172,9 +172,9 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   surname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  verificationCode?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  verificationCodeLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  verificationExpiry?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  verCode?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  verCodeLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  verExp?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

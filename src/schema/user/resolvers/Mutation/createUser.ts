@@ -2,6 +2,7 @@ import { User } from "../../../../models/user.model";
 import { createTokenAndSetCookies } from "../../../../utils/createToken";
 import { sendVerificationMail } from "../../../../utils/sendMail";
 import type { MutationResolvers } from "./../../../types.generated";
+
 export const createUser: NonNullable<MutationResolvers['createUser']> = async (_parent, { name, surname, email, password }, context) => {
    const { res } = context;
    const existingUser = await User.findOne({ email });

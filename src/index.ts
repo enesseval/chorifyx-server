@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { ApolloServer } from "apollo-server";
 import { typeDefs } from "./schema/typeDefs.generated";
 import { resolvers } from "./schema/resolvers.generated";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -15,7 +16,11 @@ const startServer = async () => {
       const server = new ApolloServer({
          typeDefs,
          resolvers,
-         context: ({ req, res }) => ({ req, res }),
+         context: ({ req, res }) => {
+            cookieParser()(req, res, () => {});
+
+            return { req, res };
+         },
          cors: {
             origin: "http://localhost:3000",
             credentials: true,

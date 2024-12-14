@@ -45,8 +45,9 @@ const userSchema = new Schema(
          type: Boolean,
          default: false,
       },
-      verificationCode: {
-         type: String,
+      verCode: {
+         type: Number,
+         default: null,
       },
       verificationExpiry: {
          type: Date,

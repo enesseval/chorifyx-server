@@ -9,7 +9,7 @@ type Query {
 type User {
   createdAt: String
   email: String!
-  id: ID!
+  id: ID
   lastLogin: String
   name: String!
   password: String!
@@ -19,9 +19,9 @@ type User {
   surname: String!
   updatedAt: String
   username: String!
-  verificationCode: Int
-  verificationCodeLimit: Int
-  verificationExpiry: String
+  verCode: Int
+  verCodeLimit: Int
+  verExp: String
 }
 
 type UserResponse {
