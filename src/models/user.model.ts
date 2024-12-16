@@ -67,6 +67,9 @@ const userSchema = new Schema(
 
 userSchema.pre("save", async function (next) {
    if (this.isModified("name") || this.isModified("surname")) {
+      this.name = this.name.replace(/\s+/g, "");
+      this.surname = this.surname.replace(/\s+/g, "");
+
       const username = `${this.name.toLowerCase()}${this.surname.toLowerCase()}`;
 
       const existingUser = await User.findOne({ username });

@@ -1,5 +1,6 @@
 type Mutation {
   createUser(email: String!, name: String!, password: String!, surname: String!): UserResponse
+  login(email: String!, password: String!): UserResponse
 }
 
 type Query {

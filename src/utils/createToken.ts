@@ -20,6 +20,6 @@ export const createTokenAndSetCookies = async (userId: string, res: Response) =>
       });
       return { accessToken };
    } catch (error) {
-      throw new Error(`Tokeb oluşturulurken bir hata oluştu: ${error}`);
+      throw new Error(`Token oluşturulurken bir hata oluştu: ${error}`);
    }
 };
