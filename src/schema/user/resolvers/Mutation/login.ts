@@ -4,7 +4,7 @@ import type { MutationResolvers } from "./../../../types.generated";
 import bcrypt from "bcryptjs";
 import { ApolloError } from "apollo-server";
 
-export const login: NonNullable<MutationResolvers["login"]> = async (_parent, { email, password }, context) => {
+export const login: NonNullable<MutationResolvers['login']> = async (_parent, { email, password }, context) => {
    const { res } = context;
 
    try {

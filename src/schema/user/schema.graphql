@@ -20,8 +20,16 @@ type UserResponse {
    username: String
 }
 
+type UsersSearch {
+   name: String!
+   surname: String!
+   username: String!
+   profileImage: String
+}
+
 type Query {
-   getUser: User
+   getUser(username: String!): User
+   getUsers(username: String!): [UsersSearch!]!
 }
 
 type Mutation {

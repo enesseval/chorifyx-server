@@ -4,7 +4,8 @@ type Mutation {
 }
 
 type Query {
-  getUser: User
+  getUser(username: String!): User
+  getUsers(username: String!): [UsersSearch!]!
 }
 
 type User {
@@ -27,4 +28,11 @@ type User {
 
 type UserResponse {
   username: String
+}
+
+type UsersSearch {
+  name: String!
+  profileImage: String
+  surname: String!
+  username: String!
 }
