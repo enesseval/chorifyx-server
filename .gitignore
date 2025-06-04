@@ -1,0 +1,48 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript
+dist/
+build/
+*.tsbuildinfo
+
+# Env files
+.env
+.env.*.local
+
+# Logs
+logs/
+*.log
+log.txt
+debug.log
+
+# OS ve editör dosyaları
+.DS_Store
+Thumbs.db
+
+# IDE'ler
+.vscode/
+.idea/
+
+# Jest
+coverage/
+
+# Sequelize CLI
+sequelize-cli/
+
+# Optional: SQLite (eğer dosya kullanılıyorsa)
+*.sqlite
+*.sqlite3
+
+# Optional: macOS metadata
+.AppleDouble
+.LSOverride
+
+# Optional: lock dosyaları (birini kullanıyorsan diğerleri zaten gitmez)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
