@@ -1,10 +1,10 @@
 import express from "express";
-import { loginController, logoutController, signupController } from "../controllers/auth.controller";
+import { registerController, verifyCodeController } from "../controllers/auth.controller";
+import authenticateJWT from "../middlewares/authenticateJWT";
 
 const router = express.Router();
 
-router.post("/register", signupController);
-router.post("/login", loginController);
-router.post("/logout", logoutController);
+router.post("/register", registerController);
+router.post("/verify", authenticateJWT, verifyCodeController);
 
 export default router;

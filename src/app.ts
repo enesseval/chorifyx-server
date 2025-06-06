@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get("/health", (_req, res) => {
    res.status(200).json({ status: "ok" });
