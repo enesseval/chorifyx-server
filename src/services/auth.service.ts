@@ -39,6 +39,14 @@ export async function registerService(input: SignupInput): Promise<User> {
    return user;
 }
 
+export async function checkUserService(userId: string) {
+   const user = await User.findOne({ where: { id: userId } });
+   if (!user) {
+      throw generateError(400, "USER_NOT_FOUND");
+   }
+   return user;
+}
+
 export async function verifyEmailService(email: string, code: string): Promise<void> {
    const user = await User.findOne({ where: { email } }); // 👈 await EKLENDİ
 
