@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { checkUserService, registerService, verifyEmailService } from "../services/auth.service";
+import { checkUserService, loginService, registerService, verifyEmailService } from "../services/auth.service";
 import { generateToken } from "../utils/jwt";
 import User from "../models/user.model";
 import { generateVerificationCode } from "../utils/generateVerificationCode";
@@ -43,6 +43,26 @@ export async function registerController(req: Request, res: Response, next: Next
    });
 }
 
+export async function loginController(req: Request, res: Response, next: NextFunction) {
+   const { email, password } = req.body;
+
+   const user = await loginService({ email, password });
+
+   const token = generateToken({ userId: user.id });
+
+   res.cookie("accessToken", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 1000 * 60 * 60 * 24,
+   });
+
+   res.status(200).json({
+      message: "LOGIN_SUCCESsFUL",
+      username: user.username,
+   });
+}
+
 export const getUser = async (req: Request, res: Response) => {
    res.json({
       user: req.user,
@@ -53,22 +73,16 @@ export async function verifyCodeController(req: Request, res: Response, next: Ne
    const { code } = req.body;
    const id = req.userId;
 
-   console.log(req.userId);
+   const user = await User.findOne({ where: { id: id } });
 
-   try {
-      const user = await User.findOne({ where: { id: id } });
-
-      if (!user) {
-         res.status(400).json({ errorCode: "USER_NOT_FOUND" });
-         return;
-      }
-
-      await verifyEmailService(user.email, code);
-
-      res.status(200).json({ message: "VERIFIED" });
-   } catch (error) {
-      next(error);
+   if (!user) {
+      res.status(400).json({ errorCode: "USER_NOT_FOUND" });
+      return;
    }
+
+   await verifyEmailService(user.email, code);
+
+   res.status(200).json({ message: "VERIFIED" });
 }
 
 // export async function loginController(req: Request, res: Response, next: NextFunction) {

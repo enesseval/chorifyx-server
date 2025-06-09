@@ -39,6 +39,38 @@ export async function registerService(input: SignupInput): Promise<User> {
    return user;
 }
 
+export async function loginService(input: LoginInput): Promise<User> {
+   const { email, password } = input;
+
+   const user = await User.findOne({ where: { email } });
+
+   if (!user) {
+      throw generateError(400, "USER_NOT_FOUND");
+   }
+
+   if (user.lockUntil && user.lockUntil > new Date()) {
+      throw generateError(403, "ACCOUNT_LOCKED_TRY_LATER");
+   }
+
+   const isMatch = await user.comparePassword(password);
+
+   if (!isMatch) {
+      await User.incrementLoginAttempts(email);
+      throw generateError(400, "INVALID_PASSWORD");
+   }
+
+   if (!user.isVerified) {
+      throw generateError(401, "EMAIL_NOT_VERIFIED");
+   }
+
+   // Başarılı giriş: loginAttempts ve lockUntil sıfırlanır
+   user.loginAttempts = 0;
+   user.lockUntil = null;
+   await user.save();
+
+   return user;
+}
+
 export async function checkUserService(userId: string) {
    const user = await User.findOne({ where: { id: userId } });
    if (!user) {
@@ -48,9 +80,12 @@ export async function checkUserService(userId: string) {
 }
 
 export async function verifyEmailService(email: string, code: string): Promise<void> {
-   const user = await User.findOne({ where: { email } }); // 👈 await EKLENDİ
+   const user = await User.findOne({ where: { email } });
+
+   console.log(code);
 
    if (!user) throw generateError(404, "USER_NOT_FOUND");
+   0;
 
    if (user.isVerified) throw generateError(400, "EMAIL_ALREADY_VERIFIED");
 
@@ -64,5 +99,5 @@ export async function verifyEmailService(email: string, code: string): Promise<v
    user.verificationCode = null;
    user.verificationCodeExpires = null;
 
-   await user.save(); // 🔁 Veritabanında değişiklikleri kaydetmeyi unutma
+   await user.save();
 }
