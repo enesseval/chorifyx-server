@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { checkUserService, loginService, registerService, verifyEmailService } from "../services/auth.service";
+import { checkUserService, loginService, registerService, resendVerifyCode, verifyEmailService } from "../services/auth.service";
 import { generateToken } from "../utils/jwt";
 import User from "../models/user.model";
 import { generateVerificationCode } from "../utils/generateVerificationCode";
@@ -85,34 +85,10 @@ export async function verifyCodeController(req: Request, res: Response, next: Ne
    res.status(200).json({ message: "VERIFIED" });
 }
 
-// export async function loginController(req: Request, res: Response, next: NextFunction) {
-//    try {
-//       const { email, password } = req.body;
-//       const user = await loginService({ email, password });
+export async function resendVerifyCodeController(req: Request, res: Response): Promise<void> {
+   const userId = req.userId;
 
-//       const token = generateToken({ userId: user.id });
+   await resendVerifyCode(userId);
 
-//       res.cookie("token", token, {
-//          httpOnly: true,
-//          sameSite: "lax",
-//          secure: process.env.NODE_ENV === "production",
-//          maxAge: 1000 * 60 * 60 * 24,
-//       });
-
-//       res.status(200).json({
-//          message: "LOGIN_SUCCESSFUL",
-//          user: {
-//             id: user.id,
-//             email: user.email,
-//             name: user.name,
-//          },
-//       });
-//    } catch (error) {
-//       next(error);
-//    }
-// }
-
-// export async function logoutController(req: Request, res: Response) {
-//    res.clearCookie("token");
-//    res.status(200).json({ message: "LOGOUT_SUCCESSFUL" });
-// }
+   res.status(200).json({ message: "VERIFICATION_CODE_RESENT" });
+}

@@ -1,5 +1,8 @@
 import { generateError } from "../utils/generateError";
 import User from "../models/user.model";
+import { generateVerificationCode } from "../utils/generateVerificationCode";
+import templates from "../utils/mailer/templates";
+import { sendMail } from "../utils/mailer/sendMail";
 
 interface SignupInput {
    email: string;
@@ -59,10 +62,6 @@ export async function loginService(input: LoginInput): Promise<User> {
       throw generateError(400, "INVALID_PASSWORD");
    }
 
-   if (!user.isVerified) {
-      throw generateError(401, "EMAIL_NOT_VERIFIED");
-   }
-
    // Başarılı giriş: loginAttempts ve lockUntil sıfırlanır
    user.loginAttempts = 0;
    user.lockUntil = null;
@@ -82,10 +81,7 @@ export async function checkUserService(userId: string) {
 export async function verifyEmailService(email: string, code: string): Promise<void> {
    const user = await User.findOne({ where: { email } });
 
-   console.log(code);
-
    if (!user) throw generateError(404, "USER_NOT_FOUND");
-   0;
 
    if (user.isVerified) throw generateError(400, "EMAIL_ALREADY_VERIFIED");
 
@@ -100,4 +96,23 @@ export async function verifyEmailService(email: string, code: string): Promise<v
    user.verificationCodeExpires = null;
 
    await user.save();
+}
+
+export async function resendVerifyCode(userId: string): Promise<void> {
+   const user = await User.findByPk(userId);
+
+   if (!user) throw generateError(404, "USER_NOT_FOUND");
+   if (user.isVerified) throw generateError(400, "EMAIL_ALREADY_VERIFIED");
+   if (user.verificationAttempts >= 5) throw generateError(429, "TOO_MANY_VERIFICATION_ATTEMPTS");
+
+   const verificationCode = generateVerificationCode();
+   const verificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000);
+
+   await user.update({
+      verificationCode,
+      verificationCodeExpires,
+   });
+
+   const { subject, html } = templates.verifyCode(user.name ?? "", verificationCode);
+   await sendMail({ to: user.email, subject, html });
 }

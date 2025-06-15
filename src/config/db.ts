@@ -9,7 +9,7 @@ const db_url = DATABASE_URL || `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:
 
 const sequelize = new Sequelize(db_url, {
    dialect: "postgres",
-   logging: false,
+   logging: console.log,
    dialectOptions: {
       ssl: NODE_ENV === "production" ? { require: true, rejectUnauthorized: false } : false,
    },
