@@ -98,7 +98,7 @@ export async function verifyEmailService(email: string, code: string): Promise<v
    await user.save();
 }
 
-export async function resendVerifyCode(userId: string): Promise<void> {
+export async function resendVerifyCode(userId: string): Promise<Date> {
    const user = await User.findByPk(userId);
 
    if (!user) throw generateError(404, "USER_NOT_FOUND");
@@ -115,4 +115,6 @@ export async function resendVerifyCode(userId: string): Promise<void> {
 
    const { subject, html } = templates.verifyCode(user.name ?? "", verificationCode);
    await sendMail({ to: user.email, subject, html });
+
+   return verificationCodeExpires;
 }

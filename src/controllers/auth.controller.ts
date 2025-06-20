@@ -88,7 +88,7 @@ export async function verifyCodeController(req: Request, res: Response, next: Ne
 export async function resendVerifyCodeController(req: Request, res: Response): Promise<void> {
    const userId = req.userId;
 
-   await resendVerifyCode(userId);
+   const newDate = await resendVerifyCode(userId);
 
-   res.status(200).json({ message: "VERIFICATION_CODE_RESENT" });
+   res.status(200).json({ message: "VERIFICATION_CODE_RESENT", newDate });
 }
