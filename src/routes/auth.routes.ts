@@ -3,8 +3,11 @@ import { getUser, loginController, registerController, resendVerifyCodeControlle
 import authenticateJWT from "../middlewares/authenticateJWT";
 import { asyncHandler } from "../utils/asyncHandler";
 import populateUser from "../middlewares/populateUser";
+import { authGlobalLimiter } from "../middlewares/rateLimiter";
 
 const router = express.Router();
+
+router.use(authGlobalLimiter);
 
 router.post("/register", asyncHandler(registerController));
 router.post("/login", asyncHandler(loginController));

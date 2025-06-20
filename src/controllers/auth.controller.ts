@@ -1,12 +1,12 @@
-import { Request, Response, NextFunction } from "express";
-import { checkUserService, loginService, registerService, resendVerifyCode, verifyEmailService } from "../services/auth.service";
+import { Request, Response } from "express";
+import { loginService, registerService, resendVerifyCode, verifyEmailService } from "../services/auth.service";
 import { generateToken } from "../utils/jwt";
 import User from "../models/user.model";
 import { generateVerificationCode } from "../utils/generateVerificationCode";
 import templates from "../utils/mailer/templates";
 import { sendMail } from "../utils/mailer/sendMail";
 
-export async function registerController(req: Request, res: Response, next: NextFunction) {
+export async function registerController(req: Request, res: Response) {
    const { email, password, name, surname } = req.body;
    const username = await User.generateUniqueUsername(name, surname);
 
@@ -43,7 +43,7 @@ export async function registerController(req: Request, res: Response, next: Next
    });
 }
 
-export async function loginController(req: Request, res: Response, next: NextFunction) {
+export async function loginController(req: Request, res: Response) {
    const { email, password } = req.body;
 
    const user = await loginService({ email, password });
@@ -63,13 +63,13 @@ export async function loginController(req: Request, res: Response, next: NextFun
    });
 }
 
-export const getUser = async (req: Request, res: Response) => {
+export async function getUser(req: Request, res: Response) {
    res.json({
       user: req.user,
    });
-};
+}
 
-export async function verifyCodeController(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function verifyCodeController(req: Request, res: Response): Promise<void> {
    const { code } = req.body;
    const id = req.userId;
 
